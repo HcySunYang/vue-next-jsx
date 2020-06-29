@@ -1,0 +1,50 @@
+{
+  "name": "vue-next-jsx",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "repository": "https://github.com/HcySunYang/vue-next-jsx.git",
+  "author": "HcySunYang <HcySunYang@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "commit": "git-cz",
+    "lint": "prettier --write --parser typescript \"src/**/*.ts?(x)\"",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.0.14",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "husky": "^4.2.5",
+    "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "rollup": "^2.18.1",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
