@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Element Normal element 1`] = `"const el = createVNode(\\"p\\", null, null);"`;
+
+exports[`Element Normal element with children 1`] = `"const el = createVNode(\\"p\\", null, [createVNode(\\"i\\", null, [createTextVNode(\\"hello\\")]), createTextVNode(\\" \\"), ref.value]);"`;
+
+exports[`Element Normal element with normal attribute 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"id\\": \\"1\\",
+  \\"class\\": 'abc'
+}, null);"
+`;
+
+exports[`Element Normal element with normal attribute 2`] = `
+"const el = createVNode(\\"p\\", {
+  \\"id\\": \\"1\\",
+  \\"class\\": 'abc'
+}, null);"
+`;
+
+exports[`Element Normal element with spread attribute 1`] = `
+"const el = createVNode(\\"div\\", { ...attrs,
+  \\"id\\": \\"foo\\"
+}, null);"
+`;
+
+exports[`Element Normal element(self-closing) 1`] = `
+"const el = createVNode(\\"input\\", {
+  \\"id\\": \\"foo\\"
+}, null);"
+`;
+
+exports[`Element Normal elements with children 1`] = `"const el = createVNode(\\"div\\", null, [createVNode(\\"p\\", null, [createTextVNode(\\"foo\\")]), createTextVNode(\\"TEXT\\"), ...slots.bar(), item]);"`;

@@ -1,5 +1,5 @@
 {
-  "name": "vue-next-jsx",
+  "name": "babel-plugin-vue-next-jsx",
   "version": "0.1.0",
   "main": "dist/index.js",
   "repository": "https://github.com/HcySunYang/vue-next-jsx.git",
@@ -7,11 +7,21 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
+    "test": "jest",
     "commit": "git-cz",
     "lint": "prettier --write --parser typescript \"src/**/*.ts?(x)\"",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
+  "dependencies": {
+    "@babel/plugin-syntax-jsx": "^7.10.1",
+    "@babel/types": "^7.10.3"
+  },
   "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/traverse": "^7.10.3",
+    "@types/babel-types": "^7.0.7",
+    "@types/babel__core": "^7.1.9",
+    "@types/babel__traverse": "^7.0.12",
     "@types/jest": "^26.0.3",
     "@types/node": "^14.0.14",
     "commitizen": "^4.1.2",
@@ -22,6 +32,7 @@
     "prettier": "^2.0.5",
     "rollup": "^2.18.1",
     "rollup-plugin-typescript2": "^0.27.1",
+    "ts-jest": "^26.1.1",
     "typescript": "^3.9.5"
   },
   "files": [

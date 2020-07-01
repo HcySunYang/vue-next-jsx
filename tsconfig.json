@@ -18,6 +18,7 @@
     "types": ["jest", "node"]
   },
   "include": [
-    "src"
+    "src",
+    "./shims-global.d.ts"
   ]
 }

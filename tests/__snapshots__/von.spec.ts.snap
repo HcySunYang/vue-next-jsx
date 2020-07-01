@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v-on should be built as an option 1`] = `
+"createVNode(\\"p\\", {
+  \\"onClick\\": {
+    \\"handler\\": handler,
+    \\"options\\": {
+      \\"passive\\": true
+    }
+  }
+}, null);"
+`;
+
+exports[`v-on should normalize click.middle 1`] = `
+"createVNode(\\"p\\", {
+  \\"onMouseup\\": withModifiers(handler, [\\"middle\\"])
+}, null);"
+`;
+
+exports[`v-on should normalize click.right 1`] = `
+"createVNode(\\"p\\", {
+  \\"onContextmenu\\": withModifiers(handler, [\\"right\\"])
+}, null);"
+`;
+
+exports[`v-on should use withKeys 1`] = `
+"createVNode(\\"p\\", {
+  \\"onKeyup\\": withKeys(handler, [\\"esc\\"])
+}, null);"
+`;
+
+exports[`v-on v-on with arguments 1`] = `
+"createVNode(\\"p\\", {
+  \\"onClick\\": handler
+}, null);"
+`;
+
+exports[`v-on v-on with modifiers 1`] = `
+"createVNode(\\"p\\", {
+  \\"onClick\\": withModifiers(handler, [\\"stop\\", \\"prevent\\"])
+}, null);"
+`;
