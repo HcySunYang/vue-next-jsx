@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v-model Component:  default modelValue (with modifiers) 1`] = `
+"createVNode(Comp, {
+  \\"modelValue\\": ref.val,
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"modelModifiers\\": {
+    \\"a\\": true,
+    \\"b\\": true
+  }
+}, null);"
+`;
+
+exports[`v-model Component:  default modelValue 1`] = `
+"createVNode(Comp, {
+  \\"modelValue\\": ref.val,
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, null);"
+`;
+
+exports[`v-model Component:  specify model prop name (with modifiers) 1`] = `
+"createVNode(Comp, {
+  \\"foo\\": ref.val,
+  \\"onUpdate:foo\\": $event => ref.val = $event,
+  \\"fooModifiers\\": {
+    \\"a\\": true,
+    \\"b\\": true
+  }
+}, null);"
+`;
+
+exports[`v-model Component:  specify model prop name (with other props) 1`] = `
+"createVNode(Comp, {
+  \\"foo\\": ref.val,
+  \\"onUpdate:foo\\": $event => ref.val = $event,
+  \\"fooModifiers\\": {
+    \\"a\\": true,
+    \\"b\\": true
+  },
+  \\"a\\": \\"b\\"
+}, null);"
+`;
+
+exports[`v-model Component:  specify model prop name (with v-on) 1`] = `
+"createVNode(Comp, mergeProps({
+  \\"foo\\": ref.val,
+  \\"onUpdate:foo\\": $event => ref.val = $event,
+  \\"fooModifiers\\": {
+    \\"a\\": true,
+    \\"b\\": true
+  }
+}, toHandlers(obj)), null);"
+`;
+
+exports[`v-model Component:  specify model prop name 1`] = `
+"createVNode(Comp, {
+  \\"foo\\": ref.val,
+  \\"onUpdate:foo\\": $event => ref.val = $event
+}, null);"
+`;
+
+exports[`v-model Element:  input with dynamic Key binding 1`] = `
+"withDirectives(createVNode(\\"input\\", mergeProps({
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, { ...props
+}), null), [vModelDynamic, ref.val]);"
+`;
+
+exports[`v-model Element:  input with dynamic type attribute 1`] = `
+"withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"type\\": refType.value
+}, null), [vModelDynamic, ref.val]);"
+`;
+
+exports[`v-model Element:  input with type=checkbox 1`] = `
+"withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"type\\": \\"checkbox\\"
+}, null), [vModelCheckbox, ref.val]);"
+`;
+
+exports[`v-model Element:  input with type=radio 1`] = `
+"withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"type\\": \\"radio\\"
+}, null), [vModelRadio, ref.val]);"
+`;
+
+exports[`v-model Element:  input with v-model 1`] = `
+"withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, null), [vModelText, ref.val]);"
+`;
+
+exports[`v-model Element:  textarea with v-model 1`] = `
+"withDirectives(createVNode(\\"textarea\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, null), [vModelText, ref.val]);"
+`;

@@ -16,6 +16,15 @@ export function buildPropsForVon(
   const name = (attr.name as bt.JSXIdentifier).name.replace(vonRE, '')
   if (!name) {
     // v-on={ obj }
+    if (!bt.isJSXExpressionContainer(attr.value)) {
+      throw attrPath.buildCodeFrameError(
+        'v-on only supports JSXExpressionContainer'
+      )
+    }
+
+    return bt.callExpression(bt.identifier('toHandlers'), [
+      attr.value.expression as FinallyExpression
+    ])
   } else {
     if (name[0] !== '-') {
       throw attrPath.buildCodeFrameError('Invalid event name')

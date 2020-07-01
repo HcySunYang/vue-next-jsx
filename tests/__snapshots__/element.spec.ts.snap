@@ -19,9 +19,10 @@ exports[`Element Normal element with normal attribute 2`] = `
 `;
 
 exports[`Element Normal element with spread attribute 1`] = `
-"const el = createVNode(\\"div\\", { ...attrs,
+"const el = createVNode(\\"div\\", mergeProps({ ...attrs
+}, {
   \\"id\\": \\"foo\\"
-}, null);"
+}), null);"
 `;
 
 exports[`Element Normal element(self-closing) 1`] = `

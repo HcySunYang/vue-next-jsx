@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v-bind spread element (mergeProps) 1`] = `
+"createVNode(\\"p\\", mergeProps({
+  \\"a\\": \\"b\\"
+}, { ...obj
+}, {
+  \\"c\\": 1
+}), null);"
+`;
+
+exports[`v-bind spread element 1`] = `"createVNode(\\"p\\", ...obj, null);"`;

@@ -30,4 +30,14 @@ describe('v-on', () => {
     const code = `<p v-on-keyup_esc={ handler }></p>`
     transformWithPlugin(code)
   })
+
+  test('should use the `toHandlers` helper function', () => {
+    const code = `<p v-on={ obj }></p>`
+    transformWithPlugin(code)
+  })
+
+  test('should use the `mergeProps` helper function', () => {
+    const code = `<p a="b" v-on={ obj } c='d' { ...$props }></p>`
+    transformWithPlugin(code)
+  })
 })

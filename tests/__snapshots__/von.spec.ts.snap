@@ -23,6 +23,17 @@ exports[`v-on should normalize click.right 1`] = `
 }, null);"
 `;
 
+exports[`v-on should use the \`mergeProps\` helper function 1`] = `
+"createVNode(\\"p\\", mergeProps({
+  \\"a\\": \\"b\\"
+}, toHandlers(obj), {
+  \\"c\\": 'd'
+}, { ...$props
+}), null);"
+`;
+
+exports[`v-on should use the \`toHandlers\` helper function 1`] = `"createVNode(\\"p\\", toHandlers(obj), null);"`;
+
 exports[`v-on should use withKeys 1`] = `
 "createVNode(\\"p\\", {
   \\"onKeyup\\": withKeys(handler, [\\"esc\\"])
