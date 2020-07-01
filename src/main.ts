@@ -84,7 +84,7 @@ export default function VueNextJSX() {
 
           if (vueImportPath) {
             vueImportPath.replaceWith(newImportDeclaration)
-          } else {
+          } else if (specifiers.length) {
             rootPath.unshiftContainer('body', newImportDeclaration)
           }
         }
