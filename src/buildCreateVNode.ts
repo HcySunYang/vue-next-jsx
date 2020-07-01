@@ -78,12 +78,13 @@ export function buildCreateVNodeCall(
 
   // build children
   if (jsxElementPath.node.children.length) {
-    args[2] =
+    const shouldBuildAsSlot =
       isComponent &&
       tagName.toLowerCase() !== 'teleport' &&
       tagName.toLowerCase() !== 'keepalive'
-        ? buildSlots(jsxElementPath.node.children) || bt.nullLiteral()
-        : buildChildren(jsxElementPath.node.children)
+    args[2] = shouldBuildAsSlot
+      ? buildSlots(jsxElementPath.node.children) || bt.nullLiteral()
+      : buildChildren(jsxElementPath.node.children)
   }
 
   // Remove null literals, reduce code size

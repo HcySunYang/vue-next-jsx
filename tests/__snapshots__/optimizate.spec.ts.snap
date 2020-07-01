@@ -1,3 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Optimizate:  slots 1`] = `"const el = createVNode(\\"p\\");"`;
+exports[`Optimizate:  PatchFLags TEXT 1`] = `"const el = createVNode(\\"p\\", null, [children]);"`;
+
+exports[`Optimizate:  PatchFLags.CLASS 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"class\\": foo
+}, null, 2);"
+`;
+
+exports[`Optimizate:  PatchFLags.FULL_PROPS: JSXSpreadAttribute + dynamic 1`] = `
+"const el = createVNode(\\"p\\", mergeProps({ ...obj
+}, {
+  \\"id\\": foo
+}), null, 16);"
+`;
+
+exports[`Optimizate:  PatchFLags.FULL_PROPS: JSXSpreadAttribute 1`] = `"const el = createVNode(\\"p\\", ...obj, null, 16);"`;
+
+exports[`Optimizate:  PatchFLags.FULL_PROPS: v-on 1`] = `"const el = createVNode(\\"p\\", toHandlers(refVal.obj), null, 16);"`;
+
+exports[`Optimizate:  PatchFLags.PROPS 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"id\\": foo
+}, null, 8, [\\"id\\"]);"
+`;
+
+exports[`Optimizate:  PatchFLags.PROPS/PatchFLags.HYDRATE_EVENTS: v-on-click_middle={} 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"onMouseup\\": withModifiers(handler, [\\"middle\\"])
+}, null, 40, [\\"onMouseup\\"]);"
+`;
+
+exports[`Optimizate:  PatchFLags.PROPS/PatchFLags.HYDRATE_EVENTS: v-on-click_right={} 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"onContextmenu\\": withModifiers(handler, [\\"right\\"])
+}, null, 40, [\\"onContextmenu\\"]);"
+`;
+
+exports[`Optimizate:  PatchFLags.PROPS/PatchFLags.HYDRATE_EVENTS: v-on-keyup_esc={} 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"onKeyup\\": withKeys(handler, [\\"esc\\"])
+}, null, 40, [\\"onKeyup\\"]);"
+`;
+
+exports[`Optimizate:  PatchFLags.PROPS: v-on-xxx={} 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"onClick\\": handler
+}, null, 8, [\\"onClick\\"]);"
+`;
+
+exports[`Optimizate:  PatchFLags.STYLE 1`] = `
+"const el = createVNode(\\"p\\", {
+  \\"style\\": foo
+}, null, 4);"
+`;
+
+exports[`Optimizate:  PatchFLags: Component v-model-foo_a_b  1`] = `
+"const el = createVNode(Comp, {
+  \\"foo\\": refVal.value,
+  \\"onUpdate:foo\\": $event => refVal.value = $event,
+  \\"fooModifiers\\": {
+    \\"a\\": true,
+    \\"b\\": true
+  }
+}, null, 8, [\\"foo\\", \\"onUpdate:foo\\", \\"fooModifiers\\"]);"
+`;
+
+exports[`Optimizate:  PatchFLags: v-model + input + dynamic type 1`] = `
+"const el = withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => refVal.value = $event,
+  \\"type\\": refType.value
+}, null, 8, [\\"onUpdate:modelValue\\", \\"type\\"]), [vModelDynamic, refVal.value]);"
+`;
+
+exports[`Optimizate:  PatchFLags: v-model + input + dynamic type 2`] = `
+"const el = withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => refVal.value = $event,
+  \\"type\\": refType.value
+}, null, 8, [\\"onUpdate:modelValue\\", \\"type\\"]), [vModelDynamic, refVal.value]);"
+`;
+
+exports[`Optimizate:  PatchFLags: v-model + input 1`] = `
+"const el = withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => refVal.value = $event
+}, null, 8, [\\"onUpdate:modelValue\\"]), [vModelText, refVal.value]);"
+`;
+
+exports[`Optimizate:  PatchFLags: v-model:input + dynamic type 1`] = `
+"const el = withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => refVal.value = $event,
+  \\"type\\": refType.value
+}, null, 8, [\\"onUpdate:modelValue\\", \\"type\\"]), [vModelDynamic, refVal.value]);"
+`;
+
+exports[`Optimizate:  PatchFLags: v-model:input 1`] = `
+"const el = withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => refVal.value = $event
+}, null, 8, [\\"onUpdate:modelValue\\"]), [vModelText, refVal.value]);"
+`;
