@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`v-html works 1`] = `
-"createVNode(\\"p\\", {
+"import { createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"innerHTML\\": refVal.value
 });"
 `;

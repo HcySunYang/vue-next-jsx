@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`v-bind spread element (mergeProps) 1`] = `
-"createVNode(\\"p\\", mergeProps({
+"import { mergeProps, createVNode } from \\"vue\\";
+createVNode(\\"p\\", mergeProps({
   \\"a\\": \\"b\\"
 }, { ...obj
 }, {
@@ -9,4 +10,7 @@ exports[`v-bind spread element (mergeProps) 1`] = `
 }));"
 `;
 
-exports[`v-bind spread element 1`] = `"createVNode(\\"p\\", ...obj);"`;
+exports[`v-bind spread element 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(\\"p\\", ...obj);"
+`;

@@ -1,6 +1,7 @@
 import * as bt from '@babel/types'
 import { NodePath } from '@babel/traverse'
 import { FinallyExpression, TagType, AttributePaths } from './buildCreateVNode'
+import { State } from './main'
 
 export const vmodelRE = /^v-model/
 
@@ -17,7 +18,8 @@ export function buildPropsForVmodel(
   attrPath: NodePath<bt.JSXAttribute>,
   attrPaths: AttributePaths,
   tag: Exclude<TagType, bt.NullLiteral>,
-  isComponent: boolean
+  isComponent: boolean,
+  state: State
 ) {
   if (!bt.isJSXExpressionContainer(attr.value)) {
     throw attrPath.buildCodeFrameError('Invalid v-model value')
@@ -151,11 +153,12 @@ export function buildPropsForVmodel(
       // passed to the runtime as `binding.value`. removing it reduces code size.
       ret.shift()
 
+      const dirHelper = state.visitorContext.addHelper(directiveToUse)
       return {
         ret,
         needRuntime: true,
         dirArg: bt.arrayExpression([
-          bt.identifier(directiveToUse),
+          dirHelper,
           attr.value.expression as FinallyExpression
         ])
       }

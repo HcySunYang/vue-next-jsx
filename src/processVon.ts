@@ -2,12 +2,14 @@ import * as bt from '@babel/types'
 import { NodePath } from '@babel/traverse'
 import { camelize, capitalize, makeMap } from './utils'
 import { FinallyExpression } from './buildCreateVNode'
+import { State } from './main'
 
 export const vonRE = /^v-on/
 
 export function buildPropsForVon(
   attr: bt.JSXAttribute,
-  attrPath: NodePath<bt.JSXAttribute>
+  attrPath: NodePath<bt.JSXAttribute>,
+  state: State
 ) {
   if (!bt.isJSXExpressionContainer(attr.value)) {
     throw attrPath.buildCodeFrameError('Invalid event handler function')
@@ -22,7 +24,9 @@ export function buildPropsForVon(
       )
     }
 
-    return bt.callExpression(bt.identifier('toHandlers'), [
+    const toHandlersHelper = state.visitorContext.addHelper('toHandlers')
+
+    return bt.callExpression(toHandlersHelper, [
       attr.value.expression as FinallyExpression
     ])
   } else {
@@ -58,14 +62,18 @@ export function buildPropsForVon(
     let handlerExp = attr.value.expression as FinallyExpression
 
     if (nonKeyModifiers.length) {
-      handlerExp = bt.callExpression(bt.identifier('withModifiers'), [
+      const withModifiersHelper = state.visitorContext.addHelper(
+        'withModifiers'
+      )
+      handlerExp = bt.callExpression(withModifiersHelper, [
         handlerExp,
         bt.arrayExpression(nonKeyModifiers.map((m) => bt.stringLiteral(m)))
       ])
     }
 
     if (keyModifiers.length && isKeyboardEvent(eventName)) {
-      handlerExp = bt.callExpression(bt.identifier('withKeys'), [
+      const withKeysHelper = state.visitorContext.addHelper('withKeys')
+      handlerExp = bt.callExpression(withKeysHelper, [
         handlerExp,
         bt.arrayExpression(keyModifiers.map((m) => bt.stringLiteral(m)))
       ])

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`v-model Component:  default modelValue (with modifiers) 1`] = `
-"createVNode(Comp, {
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
   \\"modelValue\\": ref.val,
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"modelModifiers\\": {
@@ -12,14 +13,16 @@ exports[`v-model Component:  default modelValue (with modifiers) 1`] = `
 `;
 
 exports[`v-model Component:  default modelValue 1`] = `
-"createVNode(Comp, {
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
   \\"modelValue\\": ref.val,
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 });"
 `;
 
 exports[`v-model Component:  specify model prop name (with modifiers) 1`] = `
-"createVNode(Comp, {
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
   \\"foo\\": ref.val,
   \\"onUpdate:foo\\": $event => ref.val = $event,
   \\"fooModifiers\\": {
@@ -30,7 +33,8 @@ exports[`v-model Component:  specify model prop name (with modifiers) 1`] = `
 `;
 
 exports[`v-model Component:  specify model prop name (with other props) 1`] = `
-"createVNode(Comp, {
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
   \\"foo\\": ref.val,
   \\"onUpdate:foo\\": $event => ref.val = $event,
   \\"fooModifiers\\": {
@@ -42,7 +46,8 @@ exports[`v-model Component:  specify model prop name (with other props) 1`] = `
 `;
 
 exports[`v-model Component:  specify model prop name (with v-on) 1`] = `
-"createVNode(Comp, mergeProps({
+"import { toHandlers, mergeProps, createVNode } from \\"vue\\";
+createVNode(Comp, mergeProps({
   \\"foo\\": ref.val,
   \\"onUpdate:foo\\": $event => ref.val = $event,
   \\"fooModifiers\\": {
@@ -53,48 +58,55 @@ exports[`v-model Component:  specify model prop name (with v-on) 1`] = `
 `;
 
 exports[`v-model Component:  specify model prop name 1`] = `
-"createVNode(Comp, {
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
   \\"foo\\": ref.val,
   \\"onUpdate:foo\\": $event => ref.val = $event
 });"
 `;
 
 exports[`v-model Element:  input with dynamic Key binding 1`] = `
-"withDirectives(createVNode(\\"input\\", mergeProps({
+"import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", mergeProps({
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 }, { ...props
 })), [vModelDynamic, ref.val]);"
 `;
 
 exports[`v-model Element:  input with dynamic type attribute 1`] = `
-"withDirectives(createVNode(\\"input\\", {
+"import { vModelDynamic, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"type\\": refType.value
 }), [vModelDynamic, ref.val]);"
 `;
 
 exports[`v-model Element:  input with type=checkbox 1`] = `
-"withDirectives(createVNode(\\"input\\", {
+"import { vModelCheckbox, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"type\\": \\"checkbox\\"
 }), [vModelCheckbox, ref.val]);"
 `;
 
 exports[`v-model Element:  input with type=radio 1`] = `
-"withDirectives(createVNode(\\"input\\", {
+"import { vModelRadio, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"type\\": \\"radio\\"
 }), [vModelRadio, ref.val]);"
 `;
 
 exports[`v-model Element:  input with v-model 1`] = `
-"withDirectives(createVNode(\\"input\\", {
+"import { vModelText, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 }), [vModelText, ref.val]);"
 `;
 
 exports[`v-model Element:  textarea with v-model 1`] = `
-"withDirectives(createVNode(\\"textarea\\", {
+"import { vModelText, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"textarea\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 }), [vModelText, ref.val]);"
 `;

@@ -56,6 +56,7 @@ export function buildCreateVNodeCall(
     bt.nullLiteral(),
     bt.nullLiteral()
   ]
+
   // build props
   const directives: bt.ArrayExpression[] = []
   if (openElement.attributes.length) {
@@ -84,7 +85,7 @@ export function buildCreateVNodeCall(
       tagName.toLowerCase() !== 'keepalive'
     args[2] = shouldBuildAsSlot
       ? buildSlots(jsxElementPath.node.children) || bt.nullLiteral()
-      : buildChildren(jsxElementPath.node.children)
+      : buildChildren(jsxElementPath.node.children, state)
   }
 
   // Remove null literals, reduce code size
@@ -94,12 +95,18 @@ export function buildCreateVNodeCall(
     arg = args[args.length - 1]
   }
 
-  return directives.length
-    ? bt.callExpression(bt.identifier('withDirectives'), [
-        bt.callExpression(bt.identifier('createVNode'), args),
-        ...directives
-      ])
-    : bt.callExpression(bt.identifier('createVNode'), args)
+  const createVNodeHelper = state.visitorContext.addHelper('createVNode')
+  if (directives.length) {
+    const withDirectivesHelper = state.visitorContext.addHelper(
+      'withDirectives'
+    )
+    return bt.callExpression(withDirectivesHelper, [
+      bt.callExpression(createVNodeHelper, args),
+      ...directives
+    ])
+  }
+
+  return bt.callExpression(createVNodeHelper, args)
 }
 
 function buildTag(openName: bt.JSXOpeningElement['name']) {
@@ -172,7 +179,8 @@ function buildProps(
           // v-on
           const vonProp = buildPropsForVon(
             attr,
-            attrPaths[i] as NodePath<bt.JSXAttribute>
+            attrPaths[i] as NodePath<bt.JSXAttribute>,
+            state
           )
 
           // v-on={ ... }
@@ -186,7 +194,8 @@ function buildProps(
             attrPaths[i] as NodePath<bt.JSXAttribute>,
             attrPaths,
             tag,
-            isComponent
+            isComponent,
+            state
           )
           if (vmodelProps) {
             if (Array.isArray(vmodelProps)) {
@@ -281,8 +290,9 @@ function buildProps(
       mergePropsArgs.push(bt.objectExpression(currentObjectProperties))
     }
 
+    const mergePropsHelper = state.visitorContext.addHelper('mergeProps')
     return {
-      props: bt.callExpression(bt.identifier('mergeProps'), mergePropsArgs),
+      props: bt.callExpression(mergePropsHelper, mergePropsArgs),
       dirs,
       patchFlag,
       dynamicPropName: dynamicProps
@@ -311,18 +321,22 @@ function processJSXAttrValue(value: bt.JSXAttribute['value']) {
   }
 }
 
-function buildChildren(children: bt.JSXElement['children']) {
+function buildChildren(children: bt.JSXElement['children'], state: State) {
   return bt.arrayExpression(
     children
       .map((child) => {
         if (bt.isJSXText(child)) {
           const processedText = processJSXText(child)
-          return !bt.isNullLiteral(processedText)
-            ? bt.callExpression(
-                bt.identifier('createTextVNode'),
-                [processJSXText(child)].filter((_) => !bt.isNullLiteral(_))
-              )
-            : processedText
+          if (!bt.isNullLiteral(processedText)) {
+            const createTextVNodeHelper = state.visitorContext.addHelper(
+              'createTextVNode'
+            )
+            return bt.callExpression(
+              createTextVNodeHelper,
+              [processJSXText(child)].filter((_) => !bt.isNullLiteral(_))
+            )
+          }
+          return processedText
         } else if (bt.isJSXExpressionContainer(child)) {
           return child.expression as FinallyExpression
         } else if (bt.isJSXSpreadChild(child)) {

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`v-on should be built as an option 1`] = `
-"createVNode(\\"p\\", {
+"import { createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"onClick\\": {
     \\"handler\\": handler,
     \\"options\\": {
@@ -12,19 +13,22 @@ exports[`v-on should be built as an option 1`] = `
 `;
 
 exports[`v-on should normalize click.middle 1`] = `
-"createVNode(\\"p\\", {
+"import { withModifiers, createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"onMouseup\\": withModifiers(handler, [\\"middle\\"])
 });"
 `;
 
 exports[`v-on should normalize click.right 1`] = `
-"createVNode(\\"p\\", {
+"import { withModifiers, createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"onContextmenu\\": withModifiers(handler, [\\"right\\"])
 });"
 `;
 
 exports[`v-on should use the \`mergeProps\` helper function 1`] = `
-"createVNode(\\"p\\", mergeProps({
+"import { toHandlers, mergeProps, createVNode } from \\"vue\\";
+createVNode(\\"p\\", mergeProps({
   \\"a\\": \\"b\\"
 }, toHandlers(obj), {
   \\"c\\": 'd'
@@ -32,22 +36,28 @@ exports[`v-on should use the \`mergeProps\` helper function 1`] = `
 }));"
 `;
 
-exports[`v-on should use the \`toHandlers\` helper function 1`] = `"createVNode(\\"p\\", toHandlers(obj));"`;
+exports[`v-on should use the \`toHandlers\` helper function 1`] = `
+"import { toHandlers, createVNode } from \\"vue\\";
+createVNode(\\"p\\", toHandlers(obj));"
+`;
 
 exports[`v-on should use withKeys 1`] = `
-"createVNode(\\"p\\", {
+"import { withKeys, createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"onKeyup\\": withKeys(handler, [\\"esc\\"])
 });"
 `;
 
 exports[`v-on v-on with arguments 1`] = `
-"createVNode(\\"p\\", {
+"import { createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"onClick\\": handler
 });"
 `;
 
 exports[`v-on v-on with modifiers 1`] = `
-"createVNode(\\"p\\", {
+"import { withModifiers, createVNode } from \\"vue\\";
+createVNode(\\"p\\", {
   \\"onClick\\": withModifiers(handler, [\\"stop\\", \\"prevent\\"])
 });"
 `;

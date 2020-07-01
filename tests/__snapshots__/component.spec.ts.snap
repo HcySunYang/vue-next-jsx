@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Component Component with JSXExpressionContainer attribute 1`] = `
-"const el = createVNode(\\"div\\", {
+"import { createVNode } from \\"vue\\";
+const el = createVNode(\\"div\\", {
   \\"foo\\": createVNode(\\"i\\"),
   \\"bar\\": 1 + 2
 });"
 `;
 
 exports[`Component Component with JSXSpreadAttribute attribute 1`] = `
-"const el = createVNode(Comp, mergeProps({
+"import { mergeProps, createVNode } from \\"vue\\";
+const el = createVNode(Comp, mergeProps({
   \\"foo\\": \\"1\\"
 }, { ...obj
 }));"
