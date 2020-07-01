@@ -1,5 +1,7 @@
 # vue-next-jsx
 
+![build status](https://github.com/HcySunYang/vue-next-jsx/workflows/test/badge.svg)
+
 *A babel plugin that provides jsx syntax for vue3*
 
 - Supports both `jsx` and `tsx`
