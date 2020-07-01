@@ -3,5 +3,5 @@
 exports[`v-text works 1`] = `
 "createVNode(\\"p\\", {
   \\"textContent\\": refVal.value
-}, null);"
+});"
 `;

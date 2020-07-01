@@ -6,7 +6,7 @@ exports[`v-bind spread element (mergeProps) 1`] = `
 }, { ...obj
 }, {
   \\"c\\": 1
-}), null);"
+}));"
 `;
 
-exports[`v-bind spread element 1`] = `"createVNode(\\"p\\", ...obj, null);"`;
+exports[`v-bind spread element 1`] = `"createVNode(\\"p\\", ...obj);"`;

@@ -7,6 +7,8 @@ import { vmodelRE, buildPropsForVmodel } from './processVmodel'
 import { customDirRE } from './processCustomDirs'
 import { vhtmlRE, buildPropsForVHtml } from './processVHtml'
 import { vtextRE, buildPropsForVText } from './processVText'
+import { State } from './main'
+import { analyzePatchFlag, PatchFlags } from './analyzePatchFlag'
 
 export type TagType =
   | bt.StringLiteral
@@ -18,7 +20,16 @@ type ChildrenType =
   | bt.ArrayExpression
   | bt.NullLiteral
   | bt.Expression /* slot */
-type VNodeCallArgs = [NonNullable<TagType>, PropsType, ChildrenType]
+
+type PatchFlagArg = bt.NumberLiteral | bt.NullLiteral
+type DynamicPropArg = bt.ArrayExpression | bt.NullLiteral
+type VNodeCallArgs = [
+  NonNullable<TagType>,
+  PropsType,
+  ChildrenType,
+  PatchFlagArg,
+  DynamicPropArg
+]
 
 export type AttributePaths = NodePath<bt.JSXAttribute | bt.JSXSpreadAttribute>[]
 
@@ -28,7 +39,8 @@ export type FinallyExpression = Exclude<
 >
 
 export function buildCreateVNodeCall(
-  jsxElementPath: NodePath<bt.JSXElement>
+  jsxElementPath: NodePath<bt.JSXElement>,
+  state: State
 ): bt.CallExpression {
   // build tag
   const openElement = jsxElementPath.node.openingElement
@@ -37,17 +49,31 @@ export function buildCreateVNodeCall(
     throw jsxElementPath.buildCodeFrameError('Unsupported tag type')
   }
 
-  const args: VNodeCallArgs = [tag, bt.nullLiteral(), bt.nullLiteral()]
+  const args: VNodeCallArgs = [
+    tag,
+    bt.nullLiteral(),
+    bt.nullLiteral(),
+    bt.nullLiteral(),
+    bt.nullLiteral()
+  ]
   // build props
   const directives: bt.ArrayExpression[] = []
   if (openElement.attributes.length) {
-    const { props, dirs } = buildProps(
+    const { props, dirs, patchFlag, dynamicPropName } = buildProps(
       jsxElementPath.get('openingElement.attributes') as AttributePaths,
       tag,
-      isComponent
+      isComponent,
+      state
     )
     args[1] = props
     directives.push(...dirs)
+
+    if (patchFlag > 0) {
+      args[3] = bt.numericLiteral(patchFlag)
+    }
+    if (dynamicPropName.length > 0) {
+      args[4] = bt.arrayExpression(dynamicPropName)
+    }
   }
 
   // build children
@@ -58,6 +84,13 @@ export function buildCreateVNodeCall(
       tagName.toLowerCase() !== 'keepalive'
         ? buildSlots(jsxElementPath.node.children) || bt.nullLiteral()
         : buildChildren(jsxElementPath.node.children)
+  }
+
+  // Remove null literals, reduce code size
+  let arg = args[args.length - 1]
+  while (bt.isNullLiteral(arg)) {
+    ;(args.length as number) = args.length - 1
+    arg = args[args.length - 1]
   }
 
   return directives.length
@@ -90,21 +123,26 @@ function buildTag(openName: bt.JSXOpeningElement['name']) {
   }
 }
 
-type VNodePropsArgs = Array<
+export type VNodePropsArgs = Array<
   bt.ObjectProperty | bt.SpreadElement | bt.CallExpression /* toHandlers() */
 >
 function buildProps(
   attrPaths: AttributePaths,
   tag: Exclude<TagType, bt.NullLiteral>,
-  isComponent: boolean
+  isComponent: boolean,
+  state: State
 ): {
   props: bt.ObjectExpression | bt.CallExpression
   dirs: bt.ArrayExpression[]
+  patchFlag: number
+  dynamicPropName: bt.StringLiteral[]
 } {
   const props: VNodePropsArgs = []
   let hasTohandlersCall = false
   let hasSpreadElement = false
   let dirs = []
+  let patchFlag = 0
+  const dynamicProps: bt.StringLiteral[] = []
 
   for (let i = 0; i < attrPaths.length; i++) {
     const attr = attrPaths[i].node
@@ -181,11 +219,38 @@ function buildProps(
     }
   }
 
+  if (state.opts.optimizate) {
+    if (hasTohandlersCall || hasSpreadElement) {
+      patchFlag |= PatchFlags.FULL_PROPS
+    } else {
+      // analyze PatchFlag
+      const {
+        hasClassBinding,
+        hasStyleBinding,
+        hasHydrationEventBinding,
+        dynamicPropName
+      } = analyzePatchFlag(props, isComponent)
+
+      hasClassBinding && (patchFlag |= PatchFlags.CLASS)
+      hasStyleBinding && (patchFlag |= PatchFlags.STYLE)
+      hasHydrationEventBinding && (patchFlag |= PatchFlags.HYDRATE_EVENTS)
+
+      if (dynamicPropName.length > 0) {
+        patchFlag |= PatchFlags.PROPS
+        dynamicProps.push(
+          ...dynamicPropName.map((name) => bt.stringLiteral(name))
+        )
+      }
+    }
+  }
+
   if (hasTohandlersCall || hasSpreadElement) {
     if (props.length === 1) {
       return {
         props: props[0] as bt.CallExpression,
-        dirs
+        dirs,
+        patchFlag,
+        dynamicPropName: dynamicProps
       }
     }
 
@@ -217,7 +282,9 @@ function buildProps(
 
     return {
       props: bt.callExpression(bt.identifier('mergeProps'), mergePropsArgs),
-      dirs
+      dirs,
+      patchFlag,
+      dynamicPropName: dynamicProps
     }
   }
 
@@ -225,7 +292,9 @@ function buildProps(
     props: bt.objectExpression(
       props as Array<bt.ObjectProperty | bt.SpreadElement>
     ),
-    dirs
+    dirs,
+    patchFlag,
+    dynamicPropName: dynamicProps
   }
 }
 

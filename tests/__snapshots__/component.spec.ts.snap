@@ -2,14 +2,14 @@
 
 exports[`Component Component with JSXExpressionContainer attribute 1`] = `
 "const el = createVNode(\\"div\\", {
-  \\"foo\\": createVNode(\\"i\\", null, null),
+  \\"foo\\": createVNode(\\"i\\"),
   \\"bar\\": 1 + 2
-}, null);"
+});"
 `;
 
 exports[`Component Component with JSXSpreadAttribute attribute 1`] = `
 "const el = createVNode(Comp, mergeProps({
   \\"foo\\": \\"1\\"
 }, { ...obj
-}), null);"
+}));"
 `;

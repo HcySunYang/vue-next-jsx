@@ -3,5 +3,5 @@
 exports[`v-html works 1`] = `
 "createVNode(\\"p\\", {
   \\"innerHTML\\": refVal.value
-}, null);"
+});"
 `;

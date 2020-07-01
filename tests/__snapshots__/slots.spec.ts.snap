@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Slots KeepAlive children should not be converted into slots 1`] = `"const el = createVNode(KeepAlive, null, [createVNode(Comp, null, null)]);"`;
+exports[`Slots KeepAlive children should not be converted into slots 1`] = `"const el = createVNode(KeepAlive, null, [createVNode(Comp)]);"`;
 
-exports[`Slots TelePort children should not be converted into slots 1`] = `"const el = createVNode(TelePort, null, [createVNode(Comp, null, null)]);"`;
+exports[`Slots TelePort children should not be converted into slots 1`] = `"const el = createVNode(TelePort, null, [createVNode(Comp)]);"`;
 
 exports[`Slots slots 1`] = `"const el = createVNode(Comp, null, slots);"`;
