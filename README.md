@@ -3,7 +3,7 @@
 *A babel plugin that provides jsx syntax for vue3*
 
 - Supports both `jsx` and `tsx`
-- ame behavior as `Vue3 Compiler`
+- Same behavior as `Vue3 Compiler`
 - Fully supports `v-on` / `v-model`
 - Support optimizate mode: analyze `PatchFlags`
 - Write in Typescript
