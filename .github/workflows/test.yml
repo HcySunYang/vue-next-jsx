@@ -12,7 +12,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: npm install, build, and test
       run: |
-        npm i yarn -g
         yarn
         yarn test
       env:
