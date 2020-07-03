@@ -138,6 +138,17 @@ const App = {
 
 In Vue3, the children of KeepAlive and Teleport components will not be built as `slots`, so you can use them as in the template:
 
+## Fragment
+
+Since Vue3 supports multiple root elements, so we need to support `Fragment`:
+
+```html
+<>
+  <p>foo</p>
+  <div>bar</div>
+</>
+```
+
 ## Optimization mode
 
 `Vue3` makes full use of compile-time information to generate `PatchFlags` for runtime update performance improvement, `vue-next-jsx` behaves as `Vue3 Compiler` after enabling **optimization mode**.

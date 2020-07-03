@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Fragment <> 1`] = `
+"import { createVNode, Fragment } from \\"vue\\";
+const el = createVNode(Fragment, null, [createVNode(\\"p\\")]);"
+`;

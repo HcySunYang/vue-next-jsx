@@ -2,6 +2,7 @@ import jsx from '@babel/plugin-syntax-jsx'
 import * as bt from '@babel/types'
 import { Visitor, NodePath } from '@babel/traverse'
 import { buildCreateVNodeCall } from './buildCreateVNode'
+import { buildFragment } from './buildFragment'
 
 export interface Options {
   optimizate?: boolean
@@ -93,6 +94,12 @@ export default function VueNextJSX() {
         exit(path: NodePath<bt.JSXElement>, state: State) {
           state.opts = { ...defaultOptions, ...state.opts }
           path.replaceWith(buildCreateVNodeCall(path, state))
+        }
+      },
+      JSXFragment: {
+        exit(path: NodePath<bt.JSXFragment>, state: State) {
+          state.opts = { ...defaultOptions, ...state.opts }
+          path.replaceWith(buildFragment(path, state))
         }
       }
     } as Visitor

@@ -321,7 +321,10 @@ function processJSXAttrValue(value: bt.JSXAttribute['value']) {
   }
 }
 
-function buildChildren(children: bt.JSXElement['children'], state: State) {
+export function buildChildren(
+  children: bt.JSXElement['children'],
+  state: State
+) {
   return bt.arrayExpression(
     children
       .map((child) => {
