@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v-show works 1`] = `
+"import { vShow, createVNode, withDirectives } from \\"vue\\";
+const el = withDirectives(createVNode(\\"p\\", {}), [[vShow, refVal.value]]);"
+`;

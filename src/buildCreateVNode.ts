@@ -6,6 +6,7 @@ import { vonRE, buildPropsForVon } from './processVon'
 import { vmodelRE, buildPropsForVmodel } from './processVmodel'
 import { customDirRE } from './processCustomDirs'
 import { vhtmlRE, buildPropsForVHtml } from './processVHtml'
+import { vshowRE, processVshow } from './processVshow'
 import { vtextRE, buildPropsForVText } from './processVText'
 import { State } from './main'
 import { analyzePatchFlag, PatchFlags } from './analyzePatchFlag'
@@ -102,7 +103,7 @@ export function buildCreateVNodeCall(
     )
     return bt.callExpression(withDirectivesHelper, [
       bt.callExpression(createVNodeHelper, args),
-      ...directives
+      bt.arrayExpression(directives)
     ])
   }
 
@@ -172,6 +173,7 @@ function buildProps(
         const isVon = vonRE.test(attr.name.name)
         const isVmodel = vmodelRE.test(attr.name.name)
         const isVHtml = vhtmlRE.test(attr.name.name)
+        const isVshow = vshowRE.test(attr.name.name)
         const isVText = vtextRE.test(attr.name.name)
         const isCustomDir = customDirRE.test(attr.name.name)
 
@@ -217,6 +219,13 @@ function buildProps(
             attrPaths[i] as NodePath<bt.JSXAttribute>
           )
           props.push(textContentProp)
+        } else if (isVshow) {
+          const vshowDir = processVshow(
+            attr,
+            attrPaths[i] as NodePath<bt.JSXAttribute>,
+            state
+          )
+          dirs.push(vshowDir)
         } else if (isCustomDir) {
           // TODO
         } else {

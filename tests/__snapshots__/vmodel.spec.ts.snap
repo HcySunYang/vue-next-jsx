@@ -70,7 +70,7 @@ exports[`v-model Element:  input with dynamic Key binding 1`] = `
 withDirectives(createVNode(\\"input\\", mergeProps({
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 }, { ...props
-})), [vModelDynamic, ref.val]);"
+})), [[vModelDynamic, ref.val]]);"
 `;
 
 exports[`v-model Element:  input with dynamic type attribute 1`] = `
@@ -78,7 +78,7 @@ exports[`v-model Element:  input with dynamic type attribute 1`] = `
 withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"type\\": refType.value
-}), [vModelDynamic, ref.val]);"
+}), [[vModelDynamic, ref.val]]);"
 `;
 
 exports[`v-model Element:  input with type=checkbox 1`] = `
@@ -86,7 +86,7 @@ exports[`v-model Element:  input with type=checkbox 1`] = `
 withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"type\\": \\"checkbox\\"
-}), [vModelCheckbox, ref.val]);"
+}), [[vModelCheckbox, ref.val]]);"
 `;
 
 exports[`v-model Element:  input with type=radio 1`] = `
@@ -94,19 +94,19 @@ exports[`v-model Element:  input with type=radio 1`] = `
 withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event,
   \\"type\\": \\"radio\\"
-}), [vModelRadio, ref.val]);"
+}), [[vModelRadio, ref.val]]);"
 `;
 
 exports[`v-model Element:  input with v-model 1`] = `
 "import { vModelText, createVNode, withDirectives } from \\"vue\\";
 withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event
-}), [vModelText, ref.val]);"
+}), [[vModelText, ref.val]]);"
 `;
 
 exports[`v-model Element:  textarea with v-model 1`] = `
 "import { vModelText, createVNode, withDirectives } from \\"vue\\";
 withDirectives(createVNode(\\"textarea\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event
-}), [vModelText, ref.val]);"
+}), [[vModelText, ref.val]]);"
 `;
