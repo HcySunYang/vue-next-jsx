@@ -195,3 +195,13 @@ Just like using them in template:
 <p v-html={ refHtml.value }></p>
 <p v-text={ refText.value }></p>
 ```
+
+## Other Directives
+
+Supported:
+
+- `v-show`
+
+```html
+<p v-show={ refVal.value }></p>
+```
