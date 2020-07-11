@@ -8,6 +8,8 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
     "strict": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,

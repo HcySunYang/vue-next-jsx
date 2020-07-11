@@ -5,9 +5,10 @@
   "repository": "https://github.com/HcySunYang/vue-next-jsx.git",
   "author": "HcySunYang <HcySunYang@outlook.com>",
   "license": "MIT",
+  "types": "./dist/babel-plugin-vue-next-jsx.d.ts",
   "scripts": {
     "dev": "TARGET=playground rollup -cw",
-    "build": "rollup -c",
+    "build": "rollup -c && api-extractor run --local --verbose && rm -rf ./dist/src ./dist/playground",
     "build:playground": "TARGET=playground rollup -c",
     "test": "jest",
     "commit": "git-cz",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@babel/traverse": "^7.10.3",
+    "@microsoft/api-extractor": "^7.9.2",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "@types/babel-types": "^7.0.7",

@@ -18,7 +18,7 @@ const defaultOptions: Options = {
   source: 'vue'
 }
 
-interface VisitorContext {
+export interface VisitorContext {
   helpers: Set<string>
   addHelper(name: string): bt.Identifier
 }
