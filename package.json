@@ -1,6 +1,6 @@
 {
   "name": "@hcysunyang/babel-plugin-vue-next-jsx",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "dist/main.js",
   "repository": "https://github.com/HcySunYang/vue-next-jsx.git",
   "author": "HcySunYang <HcySunYang@outlook.com>",
@@ -32,6 +32,7 @@
     "@types/jest": "^26.0.3",
     "@types/node": "^14.0.14",
     "commitizen": "^4.1.2",
+    "conventional-changelog-cli": "^2.0.34",
     "cz-conventional-changelog": "^3.2.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
