@@ -63,5 +63,10 @@ describe('v-model', () => {
       const code = `<input v-model={ ref.val } { ...props } />`
       transformWithPlugin(code)
     })
+
+    test('input with dynamic Key binding + modifiers', () => {
+      const code = `<input v-model_number={ ref.val } { ...props } />`
+      transformWithPlugin(code)
+    })
   })
 })

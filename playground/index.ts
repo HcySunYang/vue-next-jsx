@@ -65,7 +65,7 @@ window.init = () => {
       const { code } = compileFn(source)
       console.log(`Compiled in ${(performance.now() - start).toFixed(2)}ms.`)
 
-      lastSuccessfulCode = code + `\n\n// Check the console for the AST`
+      lastSuccessfulCode = code + ''
     } catch (e) {
       lastSuccessfulCode = `/* ERROR: ${e.message} (see console for more info) */`
       console.error(e)

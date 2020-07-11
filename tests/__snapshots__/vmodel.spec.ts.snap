@@ -65,6 +65,16 @@ createVNode(Comp, {
 });"
 `;
 
+exports[`v-model Element:  input with dynamic Key binding + modifiers 1`] = `
+"import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", mergeProps({
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, { ...props
+})), [[vModelDynamic, ref.val, void 0, {
+  \\"number\\": true
+}]]);"
+`;
+
 exports[`v-model Element:  input with dynamic Key binding 1`] = `
 "import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
 withDirectives(createVNode(\\"input\\", mergeProps({

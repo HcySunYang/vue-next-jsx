@@ -19,6 +19,7 @@
   },
   "include": [
     "src",
+    "playground",
     "./shims-global.d.ts"
   ]
 }

@@ -154,13 +154,32 @@ export function buildPropsForVmodel(
       ret.shift()
 
       const dirHelper = state.visitorContext.addHelper(directiveToUse)
+
+      const arrayExpArgs: FinallyExpression[] = [
+        dirHelper,
+        attr.value.expression as FinallyExpression
+      ]
+
+      if (modifiers.length) {
+        arrayExpArgs.push(
+          ...[
+            bt.identifier('void 0'),
+            bt.objectExpression(
+              modifiers.map((m) => {
+                return bt.objectProperty(
+                  bt.stringLiteral(m),
+                  bt.booleanLiteral(true)
+                )
+              })
+            )
+          ]
+        )
+      }
+
       return {
         ret,
         needRuntime: true,
-        dirArg: bt.arrayExpression([
-          dirHelper,
-          attr.value.expression as FinallyExpression
-        ])
+        dirArg: bt.arrayExpression(arrayExpArgs)
       }
     }
   } else {
