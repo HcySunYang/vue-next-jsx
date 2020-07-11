@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "TARGET=playground rollup -cw",
     "build": "rollup -c",
+    "build:playground": "TARGET=playground rollup -c",
     "test": "jest",
     "commit": "git-cz",
     "lint": "prettier --write --parser typescript \"src/**/*.ts?(x)\"",
@@ -37,6 +38,7 @@
     "prettier": "^2.0.5",
     "rollup": "^2.18.1",
     "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.1",
     "ts-jest": "^26.1.1",
     "typescript": "^3.9.5",

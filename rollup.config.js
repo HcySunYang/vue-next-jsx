@@ -21,6 +21,7 @@ const commonConfig = {
     }
   }
 }
+
 if (isPlayground) {
   commonConfig.plugins.push(globals())
 }
