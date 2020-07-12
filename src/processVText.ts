@@ -1,6 +1,7 @@
 import * as bt from '@babel/types'
 import { NodePath } from '@babel/traverse'
 import { FinallyExpression } from './buildCreateVNode'
+import { throwError, ErrorCodes } from './errors'
 
 export const vtextRE = /^v-text$/
 
@@ -9,7 +10,7 @@ export function buildPropsForVText(
   attrPath: NodePath<bt.JSXAttribute>
 ) {
   if (!bt.isJSXExpressionContainer(attr.value)) {
-    throw attrPath.buildCodeFrameError('Invalid v-text value')
+    throwError(attrPath, ErrorCodes.X_INVALIDE_V_TEXT_VALUE)
   }
 
   return bt.objectProperty(

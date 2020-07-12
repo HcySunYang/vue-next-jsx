@@ -10,6 +10,9 @@ import { vshowRE, processVshow } from './processVshow'
 import { vtextRE, buildPropsForVText } from './processVText'
 import { State } from './main'
 import { analyzePatchFlag, PatchFlags } from './analyzePatchFlag'
+import { throwError, ErrorCodes } from './errors'
+// For tsx, these features are built on type safety considerations
+import { typedVmodelRE, buildPropsForTypedVmodel } from './processTypedVmodel'
 
 export type TagType =
   | bt.StringLiteral
@@ -47,7 +50,7 @@ export function buildCreateVNodeCall(
   const openElement = jsxElementPath.node.openingElement
   const { tag, tagName, isComponent } = buildTag(openElement.name)
   if (bt.isNullLiteral(tag)) {
-    throw jsxElementPath.buildCodeFrameError('Unsupported tag type')
+    throwError(jsxElementPath, ErrorCodes.X_INVALIDE_TAG)
   }
 
   const args: VNodeCallArgs = [
@@ -123,6 +126,7 @@ function buildTag(openName: bt.JSXOpeningElement['name']) {
     }
     tagName = openName.name
   } else if (bt.isJSXMemberExpression(openName)) {
+    isComponent = true
     tag = transformJSXMemberExpression(openName)
   }
   return {
@@ -172,6 +176,7 @@ function buildProps(
       } else {
         const isVon = vonRE.test(attr.name.name)
         const isVmodel = vmodelRE.test(attr.name.name)
+        const isTypedVmodel = typedVmodelRE.test(attr.name.name)
         const isVHtml = vhtmlRE.test(attr.name.name)
         const isVshow = vshowRE.test(attr.name.name)
         const isVText = vtextRE.test(attr.name.name)
@@ -207,6 +212,14 @@ function buildProps(
               props.push(...vmodelProps.ret)
             }
           }
+        } else if (isTypedVmodel) {
+          // vModel
+          buildPropsForTypedVmodel(
+            attr,
+            attrPaths[i] as NodePath<bt.JSXAttribute>,
+            attrPaths,
+            tag
+          )
         } else if (isVHtml) {
           const htmlProp = buildPropsForVHtml(
             attr,

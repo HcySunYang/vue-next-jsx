@@ -2,6 +2,7 @@ import * as bt from '@babel/types'
 import { NodePath } from '@babel/traverse'
 import { FinallyExpression, TagType, AttributePaths } from './buildCreateVNode'
 import { State } from './main'
+import { throwError, ErrorCodes } from './errors'
 
 export const vmodelRE = /^v-model/
 
@@ -22,7 +23,7 @@ export function buildPropsForVmodel(
   state: State
 ) {
   if (!bt.isJSXExpressionContainer(attr.value)) {
-    throw attrPath.buildCodeFrameError('Invalid v-model value')
+    throwError(attrPath, ErrorCodes.X_INVALIDE_V_MODEL_VALUE)
   }
 
   const name = (attr.name as bt.JSXIdentifier).name.replace(vmodelRE, '')
@@ -39,12 +40,12 @@ export function buildPropsForVmodel(
       propName = 'modelValue'
       modifiers.push(...name.slice(1).split('_'))
     } else if (name[0] !== '-') {
-      throw attrPath.buildCodeFrameError('Invalid v-model arg')
+      throwError(attrPath, ErrorCodes.X_INVALIDE_V_MODEL_ARGS)
     } else {
       // v-model-foo_a_b
       const nameArr = name.slice(1).split('_')
       if (!nameArr.length) {
-        throw attrPath.buildCodeFrameError('Missing v-model arg')
+        throwError(attrPath, ErrorCodes.X_MISSING_V_MODEL_ARGS)
       }
 
       propName = nameArr[0]
@@ -95,9 +96,7 @@ export function buildPropsForVmodel(
   // element: input / select / textarea
 
   if (propName !== 'modelValue') {
-    throw attrPath.buildCodeFrameError(
-      'v-model argument is not supported on plain elements'
-    )
+    throwError(attrPath, ErrorCodes.X_V_MODEL_ARG_ON_ELEMENT)
   }
 
   const tagName = (tag as bt.StringLiteral).value
@@ -122,9 +121,7 @@ export function buildPropsForVmodel(
               break
             case 'file':
               isInvalidType = true
-              throw path.buildCodeFrameError(
-                'v-model cannot used on file inputs since they are read-only. Use a v-on:change listener instead.'
-              )
+              throwError(path, ErrorCodes.X_V_MODEL_ON_FILE_INPUT_ELEMENT)
             default:
               // text type
               checkDuplicatedValue(attrPaths)
@@ -178,14 +175,11 @@ export function buildPropsForVmodel(
 
       return {
         ret,
-        needRuntime: true,
         dirArg: bt.arrayExpression(arrayExpArgs)
       }
     }
   } else {
-    throw attrPath.buildCodeFrameError(
-      'v-model can only be used on <input>, <textarea> and <select> elements.'
-    )
+    throwError(attrPath, ErrorCodes.X_V_MODEL_ON_INVALID_ELEMENT)
   }
 }
 
@@ -206,9 +200,7 @@ function findProp(attrPaths: AttributePaths, name: string) {
 function checkDuplicatedValue(attrPaths: AttributePaths) {
   const ret = findProp(attrPaths, 'value')
   if (ret) {
-    throw ret.path.buildCodeFrameError(
-      `Unnecessary value binding used alongside v-model. It will interfere with v-model's behavior.`
-    )
+    throwError(ret.path, ErrorCodes.X_V_MODEL_UNNECESSARY_VALUE)
   }
 }
 

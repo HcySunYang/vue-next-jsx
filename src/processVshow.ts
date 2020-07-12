@@ -2,6 +2,7 @@ import * as bt from '@babel/types'
 import { NodePath } from '@babel/traverse'
 import { FinallyExpression } from './buildCreateVNode'
 import { State } from './main'
+import { throwError, ErrorCodes } from './errors'
 
 export const vshowRE = /^v-show/
 
@@ -11,9 +12,7 @@ export function processVshow(
   state: State
 ) {
   if (!bt.isJSXExpressionContainer(attr.value)) {
-    throw attrPath.buildCodeFrameError(
-      'Invalid v-show value, expect `JSXExpressionContainer`'
-    )
+    throwError(attrPath, ErrorCodes.X_INVALIDE_V_SHOW_VALUE)
   }
 
   const vShow = state.visitorContext.addHelper('vShow')

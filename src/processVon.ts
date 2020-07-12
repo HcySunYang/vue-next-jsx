@@ -3,6 +3,7 @@ import { NodePath } from '@babel/traverse'
 import { camelize, capitalize, makeMap } from './utils'
 import { FinallyExpression } from './buildCreateVNode'
 import { State } from './main'
+import { throwError, ErrorCodes } from './errors'
 
 export const vonRE = /^v-on/
 
@@ -12,18 +13,12 @@ export function buildPropsForVon(
   state: State
 ) {
   if (!bt.isJSXExpressionContainer(attr.value)) {
-    throw attrPath.buildCodeFrameError('Invalid event handler function')
+    throwError(attrPath, ErrorCodes.X_INVALIDE_V_ON_VALUE)
   }
 
   const name = (attr.name as bt.JSXIdentifier).name.replace(vonRE, '')
   if (!name) {
     // v-on={ obj }
-    if (!bt.isJSXExpressionContainer(attr.value)) {
-      throw attrPath.buildCodeFrameError(
-        'v-on only supports JSXExpressionContainer'
-      )
-    }
-
     const toHandlersHelper = state.visitorContext.addHelper('toHandlers')
 
     return bt.callExpression(toHandlersHelper, [
@@ -31,12 +26,12 @@ export function buildPropsForVon(
     ])
   } else {
     if (name[0] !== '-') {
-      throw attrPath.buildCodeFrameError('Invalid event name')
+      throwError(attrPath, ErrorCodes.X_INVALIDE_V_ON_NAME)
     }
 
     const nameArr = name.slice(1).split('_')
     if (!nameArr.length) {
-      throw attrPath.buildCodeFrameError('Missing event name')
+      throwError(attrPath, ErrorCodes.X_MISSING_V_ON_NAME)
     }
 
     let eventName = nameArr[0]
