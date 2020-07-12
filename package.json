@@ -8,7 +8,8 @@
   "types": "./dist/babel-plugin-vue-next-jsx.d.ts",
   "scripts": {
     "dev": "TARGET=playground rollup -cw",
-    "build": "rollup -c && api-extractor run --local --verbose && rm -rf ./dist/src ./dist/playground",
+    "build": "rollup -c && api-extractor run --local --verbose",
+    "postbuild": "node ./scripts/postbuild.js",
     "build:playground": "TARGET=playground rollup -c",
     "test": "jest",
     "commit": "git-cz",
@@ -34,6 +35,7 @@
     "commitizen": "^4.1.2",
     "conventional-changelog-cli": "^2.0.34",
     "cz-conventional-changelog": "^3.2.0",
+    "fs-extra": "^9.0.1",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "lint-staged": "^10.2.11",

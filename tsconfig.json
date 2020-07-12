@@ -10,6 +10,7 @@
     "allowJs": false,
     "declaration": true,
     "declarationMap": true,
+    "jsx": "preserve",
     "strict": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
@@ -22,6 +23,7 @@
   "include": [
     "src",
     "playground",
-    "./shims-global.d.ts"
+    "./shims-global.d.ts",
+    "test-dts"
   ]
 }
