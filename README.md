@@ -37,6 +37,51 @@ yarn add @hcysunyang/babel-plugin-vue-next-jsx -D
 }
 ```
 
+# For typescript users
+
+Please read this thread: [https://github.com/vuejs/jsx/issues/141](https://github.com/vuejs/jsx/issues/141)
+
+For the sake of type hinting and type safety, we recommend using the following syntax:
+
+## vModel
+
+#### Intrinaic Elements
+
+```html
+<!-- value -->
+<input vModel={ [refVal.value] } />
+<!-- value + array modifiers -->
+<input vModel={ [refVal.value, ['number', 'trim']] } />
+<!-- value + object modifiers -->
+<input vModel={ [refVal.value, { number: true }] } />
+```
+
+#### Components
+
+```html
+<!-- value -->
+<Comp vModel={ [refVal.value] } />
+<!-- value + array modifiers -->
+<Comp vModel={ [refVal.value, 'modelValue', ['a', 'b']] } />
+<!-- value + object modifiers -->
+<Comp vModel={ [refVal.value, 'modelValue', { a: true, b: true }] } />
+<!-- value + propName -->
+<Comp vModel={ [refVal.value, 'foo'] } />
+<!-- value + dynamic propName -->
+<Comp vModel={ [refVal.value, refName.value] } />
+<!-- value + dynamic propName + modifiers -->
+<Comp vModel={ [refVal.value, refName.value, ['a', 'b']] } />
+
+<div onClick={ handler }></div>
+<div onClick={ withModifiers(handler, ['self']) }></div>
+```
+
+For type hints, you can check our dts test: [intrinaicElements.test-d.tsx](https://github.com/HcySunYang/vue-next-jsx/blob/main/test-dts/intrinaicElements.test-d.tsx).
+
+Note: Type support for components needs to wait until [this issue](https://github.com/vuejs/vue-next/issues/1519) to be fixed
+
+# For javascript users
+
 ## Event: v-on-eventname_modifier
 
 We often do this in template:
