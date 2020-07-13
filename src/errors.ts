@@ -14,7 +14,11 @@ export const enum ErrorCodes {
   X_INVALIDE_V_TEXT_VALUE,
   X_INVALIDE_V_ON_VALUE,
   X_INVALIDE_V_ON_NAME,
-  X_MISSING_V_ON_NAME
+  X_MISSING_V_ON_NAME,
+
+  // vModel
+  X_INVALIDE_TYPED_V_MODEL_VALUE,
+  X_INVALIDE_TYPED_V_MODEL_MODIFIERS
 }
 
 export const ErrorMsg = {
@@ -39,7 +43,13 @@ export const ErrorMsg = {
   [ErrorCodes.X_INVALIDE_V_ON_VALUE]:
     'Only JSXExpressionContainer can be used as the value of v-on/vOn.',
   [ErrorCodes.X_INVALIDE_V_ON_NAME]: 'Invalid event name',
-  [ErrorCodes.X_MISSING_V_ON_NAME]: 'Missing event name'
+  [ErrorCodes.X_MISSING_V_ON_NAME]: 'Missing event name',
+
+  // vModel
+  [ErrorCodes.X_INVALIDE_TYPED_V_MODEL_VALUE]:
+    'Only Array can be used as the value of vModel.',
+  [ErrorCodes.X_INVALIDE_TYPED_V_MODEL_MODIFIERS]:
+    "Only Array or Object can be used as the value of vModel's modifiers."
 }
 
 export function throwError(path: NodePath<any>, errorCode: ErrorCodes): never {

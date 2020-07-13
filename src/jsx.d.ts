@@ -15,7 +15,6 @@ export type IntrinaicArrayVModelModifiers = Array<
   keyof IntrinaicObjectVModelModifiers
 >
 
-// value modifiers
 export type IntrinsicVModelArg = [any] | [any, IntrinaicVModelModifiers]
 
 declare module 'vue' {

@@ -91,7 +91,10 @@ export function buildPropsForVmodel(
     )
   }
 
-  if (isComponent) return ret
+  if (isComponent)
+    return {
+      ret
+    }
 
   // element: input / select / textarea
 
@@ -101,50 +104,11 @@ export function buildPropsForVmodel(
 
   const tagName = (tag as bt.StringLiteral).value
   if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
-    let directiveToUse = dirMap.V_MODEL_TEXT
-    let isInvalidType = false
-    if (tagName === 'input') {
-      const findResult = findProp(attrPaths, 'type')
-      if (findResult) {
-        const { path, node } = findResult
+    const { directiveToUse, isInvalidType } = resolveDiretiveToUse(
+      tagName,
+      attrPaths
+    )
 
-        if (bt.isJSXExpressionContainer(node.value)) {
-          // type={ refType.value }
-          directiveToUse = dirMap.V_MODEL_DYNAMIC
-        } else if (bt.isStringLiteral(node.value)) {
-          switch (node.value.value) {
-            case 'radio':
-              directiveToUse = dirMap.V_MODEL_RADIO
-              break
-            case 'checkbox':
-              directiveToUse = dirMap.V_MODEL_CHECKBOX
-              break
-            case 'file':
-              isInvalidType = true
-              throwError(path, ErrorCodes.X_V_MODEL_ON_FILE_INPUT_ELEMENT)
-            default:
-              // text type
-              checkDuplicatedValue(attrPaths)
-              break
-          }
-        }
-      } else if (hasDynamicKeyVBind(attrPaths)) {
-        // element has bindings with dynamic keys, which can possibly contain
-        // "type".
-        directiveToUse = dirMap.V_MODEL_DYNAMIC
-      } else {
-        // text type
-        checkDuplicatedValue(attrPaths)
-      }
-    } else if (tagName === 'select') {
-      directiveToUse = dirMap.V_MODEL_SELECT
-    } else if (tagName === 'textarea') {
-      checkDuplicatedValue(attrPaths)
-    }
-
-    // inject runtime directive
-    // by returning the helper symbol via needRuntime
-    // the import will replaced a resolveDirective call.
     if (!isInvalidType) {
       // native vmodel doesn't need the `modelValue` props since they are also
       // passed to the runtime as `binding.value`. removing it reduces code size.
@@ -180,6 +144,57 @@ export function buildPropsForVmodel(
     }
   } else {
     throwError(attrPath, ErrorCodes.X_V_MODEL_ON_INVALID_ELEMENT)
+  }
+}
+
+export function resolveDiretiveToUse(
+  tagName: string,
+  attrPaths: AttributePaths
+) {
+  let directiveToUse = dirMap.V_MODEL_TEXT
+  let isInvalidType = false
+  if (tagName === 'input') {
+    const findResult = findProp(attrPaths, 'type')
+    if (findResult) {
+      const { path, node } = findResult
+
+      if (bt.isJSXExpressionContainer(node.value)) {
+        // type={ refType.value }
+        directiveToUse = dirMap.V_MODEL_DYNAMIC
+      } else if (bt.isStringLiteral(node.value)) {
+        switch (node.value.value) {
+          case 'radio':
+            directiveToUse = dirMap.V_MODEL_RADIO
+            break
+          case 'checkbox':
+            directiveToUse = dirMap.V_MODEL_CHECKBOX
+            break
+          case 'file':
+            isInvalidType = true
+            throwError(path, ErrorCodes.X_V_MODEL_ON_FILE_INPUT_ELEMENT)
+          default:
+            // text type
+            checkDuplicatedValue(attrPaths)
+            break
+        }
+      }
+    } else if (hasDynamicKeyVBind(attrPaths)) {
+      // element has bindings with dynamic keys, which can possibly contain
+      // "type".
+      directiveToUse = dirMap.V_MODEL_DYNAMIC
+    } else {
+      // text type
+      checkDuplicatedValue(attrPaths)
+    }
+  } else if (tagName === 'select') {
+    directiveToUse = dirMap.V_MODEL_SELECT
+  } else if (tagName === 'textarea') {
+    checkDuplicatedValue(attrPaths)
+  }
+
+  return {
+    directiveToUse,
+    isInvalidType
   }
 }
 

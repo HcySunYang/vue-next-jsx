@@ -120,3 +120,70 @@ withDirectives(createVNode(\\"textarea\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 }), [[vModelText, ref.val]]);"
 `;
+
+exports[`vModel Element:  input with dynamic Key binding + array modifiers 1`] = `
+"import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", mergeProps({
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, { ...props
+})), [[vModelDynamic, ref.val, void 0, {
+  'number': true,
+  'trim': true
+}]]);"
+`;
+
+exports[`vModel Element:  input with dynamic Key binding + object modifiers 1`] = `
+"import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", mergeProps({
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, { ...props
+})), [[vModelDynamic, ref.val, void 0, {
+  number: true
+}]]);"
+`;
+
+exports[`vModel Element:  input with dynamic Key binding 1`] = `
+"import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", mergeProps({
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}, { ...props
+})), [[vModelDynamic, ref.val]]);"
+`;
+
+exports[`vModel Element:  input with dynamic type attribute 1`] = `
+"import { vModelDynamic, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"type\\": refType.value
+}), [[vModelDynamic, ref.val]]);"
+`;
+
+exports[`vModel Element:  input with type=checkbox 1`] = `
+"import { vModelCheckbox, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"type\\": \\"checkbox\\"
+}), [[vModelCheckbox, ref.val]]);"
+`;
+
+exports[`vModel Element:  input with type=radio 1`] = `
+"import { vModelRadio, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"type\\": \\"radio\\"
+}), [[vModelRadio, ref.val]]);"
+`;
+
+exports[`vModel Element:  input with vModel 1`] = `
+"import { vModelText, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}), [[vModelText, ref.val]]);"
+`;
+
+exports[`vModel Element:  textarea with vModel 1`] = `
+"import { vModelText, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"textarea\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}), [[vModelText, ref.val]]);"
+`;

@@ -70,3 +70,47 @@ describe('v-model', () => {
     })
   })
 })
+
+describe('vModel', () => {
+  describe('Element: ', () => {
+    test('input with vModel', () => {
+      const code = `<input vModel={ [ref.val] } />`
+      transformWithPlugin(code)
+    })
+
+    test('textarea with vModel', () => {
+      const code = `<textarea vModel={ [ref.val] } />`
+      transformWithPlugin(code)
+    })
+
+    test('input with dynamic type attribute', () => {
+      const code = `<input vModel={ [ref.val] } type={ refType.value } />`
+      transformWithPlugin(code)
+    })
+
+    test('input with type=radio', () => {
+      const code = `<input vModel={ [ref.val] } type="radio" />`
+      transformWithPlugin(code)
+    })
+
+    test('input with type=checkbox', () => {
+      const code = `<input vModel={ [ref.val] } type="checkbox" />`
+      transformWithPlugin(code)
+    })
+
+    test('input with dynamic Key binding', () => {
+      const code = `<input vModel={ [ref.val] } { ...props } />`
+      transformWithPlugin(code)
+    })
+
+    test('input with dynamic Key binding + array modifiers', () => {
+      const code = `<input vModel={ [ref.val, ['number', 'trim']] } { ...props } />`
+      transformWithPlugin(code)
+    })
+
+    test('input with dynamic Key binding + object modifiers', () => {
+      const code = `<input vModel={ [ref.val, { number: true }] } { ...props } />`
+      transformWithPlugin(code)
+    })
+  })
+})

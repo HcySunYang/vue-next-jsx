@@ -205,21 +205,22 @@ function buildProps(
             state
           )
           if (vmodelProps) {
-            if (Array.isArray(vmodelProps)) {
-              props.push(...vmodelProps)
-            } else {
-              dirs.push(vmodelProps.dirArg)
-              props.push(...vmodelProps.ret)
-            }
+            vmodelProps.dirArg && dirs.push(vmodelProps.dirArg)
+            vmodelProps.ret && props.push(...vmodelProps.ret)
           }
         } else if (isTypedVmodel) {
           // vModel
-          buildPropsForTypedVmodel(
+          const vmodelProps = buildPropsForTypedVmodel(
             attr,
             attrPaths[i] as NodePath<bt.JSXAttribute>,
             attrPaths,
-            tag
+            tag,
+            state
           )
+          if (vmodelProps) {
+            vmodelProps.dirArg && dirs.push(vmodelProps.dirArg)
+            vmodelProps.ret && props.push(...vmodelProps.ret)
+          }
         } else if (isVHtml) {
           const htmlProp = buildPropsForVHtml(
             attr,
