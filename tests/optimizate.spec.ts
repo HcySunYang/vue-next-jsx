@@ -70,4 +70,9 @@ describe('Optimizate: ', () => {
     const code = `const el = <Comp v-model-foo_a_b={ refVal.value } />`
     transformWithPlugin(code, { optimizate: true })
   })
+
+  test('PatchFLags: vModel + dynamic propName', () => {
+    const code = `const el = <Comp vModel={ [refVal.value, dynamic] } />`
+    transformWithPlugin(code, { optimizate: true })
+  })
 })

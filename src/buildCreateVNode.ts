@@ -261,18 +261,23 @@ function buildProps(
         hasClassBinding,
         hasStyleBinding,
         hasHydrationEventBinding,
-        dynamicPropName
+        dynamicPropName,
+        needFullPatch
       } = analyzePatchFlag(props, isComponent)
 
-      hasClassBinding && (patchFlag |= PatchFlags.CLASS)
-      hasStyleBinding && (patchFlag |= PatchFlags.STYLE)
-      hasHydrationEventBinding && (patchFlag |= PatchFlags.HYDRATE_EVENTS)
+      if (needFullPatch) {
+        patchFlag |= PatchFlags.FULL_PROPS
+      } else {
+        hasClassBinding && (patchFlag |= PatchFlags.CLASS)
+        hasStyleBinding && (patchFlag |= PatchFlags.STYLE)
+        hasHydrationEventBinding && (patchFlag |= PatchFlags.HYDRATE_EVENTS)
 
-      if (dynamicPropName.length > 0) {
-        patchFlag |= PatchFlags.PROPS
-        dynamicProps.push(
-          ...dynamicPropName.map((name) => bt.stringLiteral(name))
-        )
+        if (dynamicPropName && dynamicPropName.length > 0) {
+          patchFlag |= PatchFlags.PROPS
+          dynamicProps.push(
+            ...dynamicPropName.map((name) => bt.stringLiteral(name))
+          )
+        }
       }
     }
   }

@@ -101,3 +101,11 @@ const el = withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => refVal.value = $event
 }, null, 8, [\\"onUpdate:modelValue\\"]), [[vModelText, refVal.value]]);"
 `;
+
+exports[`Optimizate:  PatchFLags: vModel + dynamic propName 1`] = `
+"import { createVNode } from \\"vue\\";
+const el = createVNode(Comp, {
+  [dynamic]: refVal.value,
+  [\\"onUpdate:\\" + dynamic]: $event => refVal.value = $event
+}, null, 16);"
+`;

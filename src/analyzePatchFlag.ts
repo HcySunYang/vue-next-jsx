@@ -6,11 +6,18 @@ export function analyzePatchFlag(props: VNodePropsArgs, isComponent: boolean) {
   let hasClassBinding = false
   let hasStyleBinding = false
   let hasHydrationEventBinding = false
+  let needFullPatch = false
   let dynamicPropName: string[] = []
   for (let i = 0; i < props.length; i++) {
     const prop = props[i]
     if (bt.isObjectProperty(prop)) {
-      const key = (prop.key as bt.StringLiteral).value
+      if (!bt.isStringLiteral(prop.key)) {
+        needFullPatch = true
+        return {
+          needFullPatch
+        }
+      }
+      const key = prop.key.value
       if (
         !isComponent &&
         isOn(key) &&

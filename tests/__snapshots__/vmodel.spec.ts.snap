@@ -121,6 +121,69 @@ withDirectives(createVNode(\\"textarea\\", {
 }), [[vModelText, ref.val]]);"
 `;
 
+exports[`vModel Component:  default modelValue (with array modifiers) 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  \\"modelValue\\": ref.val,
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"modelModifiers\\": {
+    'a': true,
+    'b': true
+  }
+});"
+`;
+
+exports[`vModel Component:  default modelValue (with object modifiers) 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  \\"modelValue\\": ref.val,
+  \\"onUpdate:modelValue\\": $event => ref.val = $event,
+  \\"modelModifiers\\": {
+    a: true,
+    b: true
+  }
+});"
+`;
+
+exports[`vModel Component:  default modelValue 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  \\"moduleValue\\": ref.val,
+  \\"onUpdate:moduleValue\\": $event => ref.val = $event
+});"
+`;
+
+exports[`vModel Component:  dynamic prop name 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  [dynamic]: ref.val,
+  [\\"onUpdate:\\" + dynamic]: $event => ref.val = $event,
+  [dynamic + \\"Modifiers\\"]: {
+    a: true
+  }
+});"
+`;
+
+exports[`vModel Component:  specify model prop name (with modifiers) 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  \\"foo\\": ref.val,
+  \\"onUpdate:foo\\": $event => ref.val = $event,
+  \\"fooModifiers\\": {
+    'a': true,
+    'b': true
+  }
+});"
+`;
+
+exports[`vModel Component:  specify model prop name 1`] = `
+"import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  \\"foo\\": ref.val,
+  \\"onUpdate:foo\\": $event => ref.val = $event
+});"
+`;
+
 exports[`vModel Element:  input with dynamic Key binding + array modifiers 1`] = `
 "import { vModelDynamic, mergeProps, createVNode, withDirectives } from \\"vue\\";
 withDirectives(createVNode(\\"input\\", mergeProps({

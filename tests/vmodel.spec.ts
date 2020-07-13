@@ -72,6 +72,38 @@ describe('v-model', () => {
 })
 
 describe('vModel', () => {
+  describe('Component: ', () => {
+    test('default modelValue', () => {
+      const code = `<Comp vModel={ [ref.val] } />`
+      transformWithPlugin(code)
+    })
+
+    test('default modelValue (with object modifiers)', () => {
+      const code = `<Comp vModel={ [ref.val, 'modelValue', { a: true, b: true }] } />`
+      transformWithPlugin(code)
+    })
+
+    test('default modelValue (with array modifiers)', () => {
+      const code = `<Comp vModel={ [ref.val, 'modelValue', ['a', 'b']] } />`
+      transformWithPlugin(code)
+    })
+
+    test('specify model prop name', () => {
+      const code = `<Comp vModel={ [ref.val, 'foo'] } />`
+      transformWithPlugin(code)
+    })
+
+    test('specify model prop name (with modifiers)', () => {
+      const code = `<Comp vModel={ [ref.val, 'foo', ['a', 'b']] } />`
+      transformWithPlugin(code)
+    })
+
+    test('dynamic prop name', () => {
+      const code = `<Comp vModel={ [ref.val, dynamic, { a: true }] } />`
+      transformWithPlugin(code)
+    })
+  })
+
   describe('Element: ', () => {
     test('input with vModel', () => {
       const code = `<input vModel={ [ref.val] } />`
