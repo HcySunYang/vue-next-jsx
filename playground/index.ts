@@ -89,7 +89,29 @@ window.init = () => {
   }
 
   const editor = monaco.editor.create(document.getElementById('source')!, {
-    value: persistedState.src || `<div>Hello World!</div>`,
+    value:
+      persistedState.src ||
+      `<>
+    <h1>The 1:1 mapping syntax, it reduces the mental burden, recommended for users who use js:</h1>
+    
+    <input v-model_number={ refVal.value } />
+    <input v-on-click_stop={ handler } />
+
+    <p>You can still use the original jsx syntax:</p>
+    <div onClick={ hander }></div>
+
+
+    <h1>Better type hinting and type safety, recommended to typescript users</h1>
+
+    <input vModel={ [refVal.value, { number: true }] } />
+    <input vModel={ [refVal.value, ['number']] } />
+    <Comp vModel={ [refVal.value, 'foo', { a: true }] } />
+    <Comp vModel={ [refVal.value, 'foo', ['a']] } />
+    <Comp vModel={ [refVal.value, dynamic, ['a']] } />
+
+    <p>withModifiers:</p>
+    <div onClick={ withModifiers(handler, ['self']) }></div>
+</>`,
     language: 'html',
     ...sharedEditorOptions,
     wordWrap: 'bounded'
