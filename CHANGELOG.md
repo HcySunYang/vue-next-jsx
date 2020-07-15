@@ -1,3 +1,11 @@
+## 0.3.1 (2020-07-15)
+
+
+### Bug Fixes
+
+* should use default options ([9bbf18e](https://github.com/HcySunYang/vue-next-jsx/commit/9bbf18e583e98a9704234d74db1e0beef5882ecf))
+
+
 # 0.3.0 (2020-07-13)
 
 
