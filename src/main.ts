@@ -41,6 +41,7 @@ export default function VueNextJSX() {
     visitor: {
       Program: {
         enter(path: NodePath<bt.Program>, state: State) {
+          state.opts = { ...defaultOptions, ...state.opts }
           state.visitorContext = createVisitorContext()
         },
         exit(rootPath: NodePath<bt.Program>, state: State) {
