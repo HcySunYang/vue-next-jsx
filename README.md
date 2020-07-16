@@ -54,6 +54,8 @@ For the sake of type hinting and type safety, we recommend using the following s
 <input vModel={ [refVal.value, ['number', 'trim']] } />
 <!-- value + object modifiers -->
 <input vModel={ [refVal.value, { number: true }] } />
+<!-- modifiers as a variable -->
+<input vModel={ [refVal.value, modifiers] } />
 ```
 
 #### Components
@@ -71,6 +73,8 @@ For the sake of type hinting and type safety, we recommend using the following s
 <Comp vModel={ [refVal.value, refName.value] } />
 <!-- value + dynamic propName + modifiers -->
 <Comp vModel={ [refVal.value, refName.value, ['a', 'b']] } />
+<!-- modifiers as a variable -->
+<Comp vModel={ [refVal.value, refName.value, modifiers] } />
 
 <div onClick={ handler }></div>
 <div onClick={ withModifiers(handler, ['self']) }></div>
