@@ -29,6 +29,8 @@ const sharedEditorOptions: m.editor.IStandaloneEditorConstructionOptions = {
   }
 }
 
+const STORAGE_KEY = 'jsxstate-0.3.2'
+
 window.init = () => {
   const monaco = window.monaco
 
@@ -37,7 +39,7 @@ window.init = () => {
 
   const persistedState: PersistedState = JSON.parse(
     decodeURIComponent(window.location.hash.slice(1)) ||
-      localStorage.getItem('jsxstate') ||
+      localStorage.getItem(STORAGE_KEY) ||
       `{}`
   )
 
@@ -80,7 +82,7 @@ window.init = () => {
       src,
       options: pluginOptions
     } as PersistedState)
-    localStorage.setItem('jsxstate', state)
+    localStorage.setItem(STORAGE_KEY, state)
     window.location.hash = encodeURIComponent(state)
     const res = compileCode(src)
     if (res) {
@@ -105,9 +107,12 @@ window.init = () => {
 
     <input vModel={ [refVal.value, { number: true }] } />
     <input vModel={ [refVal.value, ['number']] } />
+    <input vModel={ [refVal.value, modifiers] } />
+
     <Comp vModel={ [refVal.value, 'foo', { a: true }] } />
     <Comp vModel={ [refVal.value, 'foo', ['a']] } />
     <Comp vModel={ [refVal.value, dynamic, ['a']] } />
+    <Comp vModel={ [refVal.value, dynamic, modifiers] } />
 
     <p>withModifiers:</p>
     <div onClick={ withModifiers(handler, ['self']) }></div>
