@@ -80,6 +80,18 @@ For type hints, you can check our dts test: [intrinaicElements.test-d.tsx](https
 
 Note: Type support for components needs to wait until [this issue](https://github.com/vuejs/vue-next/issues/1519) to be fixed
 
+#### tsconfig.json
+
+```js
+{
+  // ...
+  "compilerOptions": {
+    "types": ["@hcysunyang/babel-plugin-vue-next-jsx"],
+  }
+  // ...
+}
+```
+
 # For javascript users
 
 ## Event: v-on-eventname_modifier
