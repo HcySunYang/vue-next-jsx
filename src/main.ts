@@ -3,10 +3,12 @@ import * as bt from '@babel/types'
 import { Visitor, NodePath } from '@babel/traverse'
 import { buildCreateVNodeCall } from './buildCreateVNode'
 import { buildFragment } from './buildFragment'
+export * from './runtime'
 
 export interface Options {
   optimizate?: boolean
   source?: 'vue' | '@vue/runtime-dom' | '@vue/runtime-core'
+  jsxSource?: '@hcysunyang/babel-plugin-vue-next-jsx/dist/runtime.js'
 }
 
 export type State = {
@@ -15,19 +17,27 @@ export type State = {
 
 const defaultOptions: Options = {
   optimizate: false,
-  source: 'vue'
+  source: 'vue',
+  jsxSource: '@hcysunyang/babel-plugin-vue-next-jsx/dist/runtime.js'
 }
 
 export interface VisitorContext {
   helpers: Set<string>
+  jsxHelpers: Set<string>
   addHelper(name: string): bt.Identifier
+  addJSXHelper(name: string): bt.Identifier
 }
 
 function createVisitorContext() {
   const context: VisitorContext = {
     helpers: new Set(),
+    jsxHelpers: new Set(),
     addHelper(name) {
       context.helpers.add(name)
+      return bt.identifier(name)
+    },
+    addJSXHelper(name) {
+      context.jsxHelpers.add(name)
       return bt.identifier(name)
     }
   }
@@ -45,10 +55,13 @@ export default function VueNextJSX() {
           state.visitorContext = createVisitorContext()
         },
         exit(rootPath: NodePath<bt.Program>, state: State) {
+          const { helpers, jsxHelpers } = state.visitorContext
           const specifiers: bt.ImportDeclaration['specifiers'] = []
           let vueImportPath: NodePath<bt.ImportDeclaration> | null = null
 
           // find existing import declaration
+          // import {...} from 'vue'
+          // import {...} from '@vue/runtime-dom
           const bodyPaths = rootPath.get('body')
           const vueImportPaths = bodyPaths.filter(
             (p) =>
@@ -62,7 +75,6 @@ export default function VueNextJSX() {
           }
 
           // add helpers
-          const { helpers } = state.visitorContext
           for (let helper of helpers) {
             const has = specifiers.some((specifier) => {
               return (
@@ -89,6 +101,20 @@ export default function VueNextJSX() {
           } else if (specifiers.length) {
             rootPath.unshiftContainer('body', newImportDeclaration)
           }
+
+          // jsx runtime helper
+          if (!jsxHelpers.size) return
+          const jsxSpecifiers: bt.ImportDeclaration['specifiers'] = []
+          for (let helper of jsxHelpers) {
+            jsxSpecifiers.push(
+              bt.importSpecifier(bt.identifier(helper), bt.identifier(helper))
+            )
+          }
+          const jsxRuntimImportDeclaration = bt.importDeclaration(
+            jsxSpecifiers,
+            bt.stringLiteral(state.opts.jsxSource)
+          )
+          rootPath.unshiftContainer('body', jsxRuntimImportDeclaration)
         }
       },
       JSXElement: {

@@ -35,7 +35,8 @@ export function buildPropsForTypedVmodel(
 
         const result = processIntrinaicVmodelValue(
           attr.value.expression,
-          attrPath
+          attrPath,
+          state
         )
 
         if (result) {
@@ -74,7 +75,11 @@ export function buildPropsForTypedVmodel(
     }
   } else {
     // component
-    const result = processComponentVmodelValue(attr.value.expression, attrPath)
+    const result = processComponentVmodelValue(
+      attr.value.expression,
+      attrPath,
+      state
+    )
     if (result) {
       const ret = [
         bt.objectProperty(
@@ -115,15 +120,18 @@ export function buildPropsForTypedVmodel(
 
 interface IntrinaicVmodelRes {
   valueExp: bt.LVal
-  modifiersExp?: bt.ObjectExpression
+  modifiersExp?: FinallyExpression
 }
 function processIntrinaicVmodelValue(
   exp: bt.JSXExpressionContainer['expression'],
-  attrPath: NodePath<bt.JSXAttribute>
+  attrPath: NodePath<bt.JSXAttribute>,
+  state: State
 ) {
   if (!bt.isArrayExpression(exp)) {
     throwError(attrPath, ErrorCodes.X_INVALIDE_TYPED_V_MODEL_VALUE)
   }
+  const { addJSXHelper } = state.visitorContext
+
   const eles = exp.elements
   if (eles.length) {
     const valueExp = eles[0] as bt.LVal
@@ -133,10 +141,11 @@ function processIntrinaicVmodelValue(
       valueExp
     }
 
-    const modifiersExp = buildModifiers(originalModifiersExp, attrPath)
-
-    if (modifiersExp.properties.length) {
-      processRes.modifiersExp = modifiersExp
+    if (originalModifiersExp) {
+      const { modifiersExp, needRuntime } = buildModifiers(originalModifiersExp)
+      processRes.modifiersExp = needRuntime
+        ? bt.callExpression(addJSXHelper('buildModifiers'), [modifiersExp])
+        : modifiersExp
     }
 
     return processRes
@@ -151,12 +160,14 @@ function processIntrinaicVmodelValue(
 // vModel={ [refval.value, refDynamicKey.value, ['a', 'b']] }
 function processComponentVmodelValue(
   exp: bt.JSXExpressionContainer['expression'],
-  attrPath: NodePath<bt.JSXAttribute>
+  attrPath: NodePath<bt.JSXAttribute>,
+  state: State
 ) {
   if (!bt.isArrayExpression(exp)) {
     throwError(attrPath, ErrorCodes.X_INVALIDE_TYPED_V_MODEL_VALUE)
   }
 
+  const { addJSXHelper } = state.visitorContext
   const eles = exp.elements
   if (eles.length) {
     const valueExp = eles[0] as bt.LVal
@@ -166,7 +177,7 @@ function processComponentVmodelValue(
     let propNameExp: FinallyExpression
     let eventNameExp: bt.StringLiteral | bt.BinaryExpression
     let modifiersPropNameExp: bt.StringLiteral | bt.BinaryExpression
-    let modifiersExp: bt.ObjectExpression | null = null
+    let modifiersExp: FinallyExpression | null = null
 
     if (eles.length === 1) {
       propNameExp = bt.stringLiteral('moduleValue')
@@ -199,7 +210,12 @@ function processComponentVmodelValue(
     }
 
     if (eles.length === 3) {
-      modifiersExp = buildModifiers(eles[2] as FinallyExpression, attrPath)
+      const modifiersResult = buildModifiers(eles[2] as FinallyExpression)
+      modifiersExp = modifiersResult.needRuntime
+        ? bt.callExpression(addJSXHelper('buildModifiers'), [
+            modifiersResult.modifiersExp
+          ])
+        : modifiersResult.modifiersExp
     }
 
     return {
@@ -215,17 +231,17 @@ function processComponentVmodelValue(
   }
 }
 
-function buildModifiers(
-  originalModifiersExp: FinallyExpression,
-  attrPath: NodePath<bt.JSXAttribute>
-) {
+function buildModifiers(originalModifiersExp: FinallyExpression) {
   let modifiersExp: bt.ObjectExpression = bt.objectExpression([])
   if (originalModifiersExp) {
     if (
       !bt.isArrayExpression(originalModifiersExp) &&
       !bt.isObjectExpression(originalModifiersExp)
     ) {
-      throwError(attrPath, ErrorCodes.X_INVALIDE_TYPED_V_MODEL_MODIFIERS)
+      return {
+        modifiersExp: originalModifiersExp,
+        needRuntime: true
+      }
     }
 
     if (bt.isObjectExpression(originalModifiersExp)) {
@@ -239,5 +255,8 @@ function buildModifiers(
     }
   }
 
-  return modifiersExp
+  return {
+    modifiersExp,
+    needRuntime: false
+  }
 }

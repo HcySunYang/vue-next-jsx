@@ -8,7 +8,9 @@
   "types": "./dist/babel-plugin-vue-next-jsx.d.ts",
   "scripts": {
     "dev": "TARGET=playground rollup -cw",
-    "build": "rollup -c && api-extractor run --local --verbose",
+    "build": "npm run build:main && npm run build:runtime",
+    "build:main": "rollup -c && api-extractor run --local --verbose",
+    "build:runtime": "TARGET=runtime rollup -c",
     "postbuild": "node ./scripts/postbuild.js",
     "build:playground": "TARGET=playground rollup -c",
     "test": "jest",

@@ -164,6 +164,16 @@ createVNode(Comp, {
 });"
 `;
 
+exports[`vModel Component:  need jsx runtime helper 1`] = `
+"import { buildModifiers } from \\"@hcysunyang/babel-plugin-vue-next-jsx/dist/runtime.js\\";
+import { createVNode } from \\"vue\\";
+createVNode(Comp, {
+  [dynamic]: ref.val,
+  [\\"onUpdate:\\" + dynamic]: $event => ref.val = $event,
+  [dynamic + \\"Modifiers\\"]: buildModifiers(modifiers)
+});"
+`;
+
 exports[`vModel Component:  specify model prop name (with modifiers) 1`] = `
 "import { createVNode } from \\"vue\\";
 createVNode(Comp, {
@@ -242,6 +252,14 @@ exports[`vModel Element:  input with vModel 1`] = `
 withDirectives(createVNode(\\"input\\", {
   \\"onUpdate:modelValue\\": $event => ref.val = $event
 }), [[vModelText, ref.val]]);"
+`;
+
+exports[`vModel Element:  need jsx runtime helper 1`] = `
+"import { buildModifiers } from \\"@hcysunyang/babel-plugin-vue-next-jsx/dist/runtime.js\\";
+import { vModelText, createVNode, withDirectives } from \\"vue\\";
+withDirectives(createVNode(\\"input\\", {
+  \\"onUpdate:modelValue\\": $event => ref.val = $event
+}), [[vModelText, ref.val, void 0, buildModifiers(modifiers)]]);"
 `;
 
 exports[`vModel Element:  textarea with vModel 1`] = `

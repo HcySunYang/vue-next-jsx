@@ -102,6 +102,11 @@ describe('vModel', () => {
       const code = `<Comp vModel={ [ref.val, dynamic, { a: true }] } />`
       transformWithPlugin(code)
     })
+
+    test('need jsx runtime helper', () => {
+      const code = `<Comp vModel={ [ref.val, dynamic, modifiers] } />`
+      transformWithPlugin(code)
+    })
   })
 
   describe('Element: ', () => {
@@ -142,6 +147,11 @@ describe('vModel', () => {
 
     test('input with dynamic Key binding + object modifiers', () => {
       const code = `<input vModel={ [ref.val, { number: true }] } { ...props } />`
+      transformWithPlugin(code)
+    })
+
+    test('need jsx runtime helper', () => {
+      const code = `<input vModel={ [ref.val, modifiers] } />`
       transformWithPlugin(code)
     })
   })
