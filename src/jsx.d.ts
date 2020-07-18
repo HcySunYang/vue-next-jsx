@@ -1,21 +1,26 @@
 import 'vue'
 
-// type of modifiers
-export type IntrinaicVModelModifiers =
-  | IntrinaicObjectVModelModifiers
-  | IntrinaicArrayVModelModifiers
+export type VModelModifiers = ObjectVModelModifiers | ArrayVModelModifiers
 
-export type IntrinaicObjectVModelModifiers = {
+export type ObjectVModelModifiers = {
   trim?: boolean
   lazy?: boolean
   number?: boolean
 }
 
-export type IntrinaicArrayVModelModifiers = Array<
-  keyof IntrinaicObjectVModelModifiers
->
+export type ArrayVModelModifiers = Array<keyof ObjectVModelModifiers>
 
-export type IntrinsicVModelArg = [any] | [any, IntrinaicVModelModifiers]
+// Intrinaic vModel
+export type IntrinsicVModelArg = [any] | [any, VModelModifiers]
+
+// Component vModel
+export type ComponentVModelArg =
+  | [any]
+  | [any, 'modelValue']
+  | [any, 'modelValue', string[]]
+  | [any, string]
+  | [any, string, string[]]
+  | [any, string, Record<string, boolean>]
 
 declare module 'vue' {
   interface InputHTMLAttributes {
@@ -26,5 +31,10 @@ declare module 'vue' {
   }
   interface TextareaHTMLAttributes {
     vModel?: IntrinsicVModelArg
+  }
+
+  // Components
+  interface ComponentCustomProps {
+    vModel: ComponentVModelArg
   }
 }

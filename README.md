@@ -80,9 +80,10 @@ For the sake of type hinting and type safety, we recommend using the following s
 <div onClick={ withModifiers(handler, ['self']) }></div>
 ```
 
-For type hints, you can check our dts test: [intrinaicElements.test-d.tsx](https://github.com/HcySunYang/vue-next-jsx/blob/main/test-dts/intrinaicElements.test-d.tsx).
+For type hints, you can check our dts test:
 
-Note: Type support for components needs to wait until [this issue](https://github.com/vuejs/vue-next/issues/1519) to be fixed
+- [intrinaicElements.test-d.tsx](https://github.com/HcySunYang/vue-next-jsx/blob/main/test-dts/intrinaicElements.test-d.tsx).
+- [components.test-d.tsx](https://github.com/HcySunYang/vue-next-jsx/blob/main/test-dts/components.test-d.tsx).
 
 #### tsconfig.json
 
