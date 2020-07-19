@@ -1,3 +1,7 @@
+# [0.4.0](https://github.com/HcySunYang/vue-next-jsx/compare/v0.3.2...v0.4.0) (2020-07-19)
+
+
+
 ## 0.3.1 (2020-07-15)
 
 
