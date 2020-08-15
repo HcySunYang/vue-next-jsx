@@ -35,6 +35,6 @@ declare module 'vue' {
 
   // Components
   interface ComponentCustomProps {
-    vModel: ComponentVModelArg
+    vModel?: ComponentVModelArg
   }
 }
