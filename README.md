@@ -45,7 +45,7 @@ For the sake of type hinting and type safety, we recommend using the following s
 
 ## vModel
 
-#### Intrinaic Elements
+#### Intrinsic Elements
 
 ```html
 <!-- value -->
