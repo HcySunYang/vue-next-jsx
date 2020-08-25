@@ -1,5 +1,7 @@
 # vue-next-jsx
 
+## This project has been archived because Vue will have an official version.
+
 [Vue Next JSX Explorer](https://vue-next-jsx.netlify.app/)
 
 ![build status](https://github.com/HcySunYang/vue-next-jsx/workflows/test/badge.svg)
